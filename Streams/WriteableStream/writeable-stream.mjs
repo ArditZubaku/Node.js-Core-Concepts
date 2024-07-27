@@ -67,16 +67,16 @@ const test = async () => {
   // fileHandler.close();
 };
 
-const fixLoop = async () => {
+const createBigFile = async (numberOfLines, fileName) => {
   console.time("fixLoop");
-  const fileHandler = await fs.open("test2.txt", "w");
+  const fileHandler = await fs.open(fileName, "w");
   const stream = fileHandler.createWriteStream();
 
   let i = 0;
   const writeMany = async () => {
-    while (i <= 1_000_000) {
+    while (i <= numberOfLines) {
       const buffer = Buffer.from(`Line ${i}\n`, "utf-8");
-      if (i === 1_000_000) {
+      if (i === numberOfLines) {
         // Last write to the stream and close it
         // We can also pass a callback to the end method, or listen to the finish event
         return stream.end(buffer, () => console.log("This gets logged first"));
@@ -97,4 +97,4 @@ const fixLoop = async () => {
   });
 };
 
-fixLoop();
+createBigFile(1_000_000_000, "bigFile2.txt");

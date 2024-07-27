@@ -1,3 +1,5 @@
 /.idea
 /node_modules
-
+./Streams/ReadableStream/bigFile.txt
+./Streams/ReadableStream/dest.txt
+.DS_Store
