@@ -1,0 +1,5 @@
+This is just a string 0
+This is just a string 1
+This is just a string 2
+This is just a string 3
+End of stream
