@@ -5,18 +5,20 @@ const server = net.createServer();
 
 const clients = [];
 
+function notifyClients(clients, clientId, message) {
+  for (const { client } of clients) {
+    client.write(`Notification: User [${clientId}] ${message}`);
+  }
+}
 server.on("connection", (socket) => {
   // Duplex stream - same as the client
   // socket.write()
   console.log("A new connection to the server!");
 
   const clientId = clients.length + 1;
-  clients.push({
-    id: clientId.toString(),
-    client: socket,
-  });
-
   socket.write(`ID-${clientId}`);
+
+  notifyClients(clients, clientId, "joined the chat");
 
   socket.on("data", (data) => {
     // console.log(data.toString("utf-8"));
@@ -32,6 +34,15 @@ server.on("connection", (socket) => {
     for (const { client } of clients) {
       client.write(`> User ${clientId}: ${message}`);
     }
+  });
+
+  socket.on("end", () => {
+    notifyClients(clients, clientId, "left the chat");
+  });
+
+  clients.push({
+    id: clientId.toString(),
+    client: socket,
   });
 });
 
