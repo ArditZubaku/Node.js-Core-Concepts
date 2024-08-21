@@ -21,15 +21,17 @@ const moveCursor = (dx, dy) =>
   });
 
 const ask = async () => {
-  const answer = await rl.question("Enter a message > ");
+  const message = await rl.question("Enter a message > ");
 
   // Move the cursor one line up
   await moveCursor(0, -1);
 
   // Clear the line in which the cursor is in
   await clearLine(0);
-  socket.write(answer);
+  socket.write(`${id}:Message-${message}`);
 };
+
+let id;
 
 // Creates a client, and it needs to connect to a server (port)
 // Gets assigned a dynamic port by the OS
@@ -48,7 +50,13 @@ socket.on("data", async (data) => {
   console.log();
   await moveCursor(0, -1);
   await clearLine(0);
-  console.log(data.toString("utf-8"));
+
+  if (data.toString("utf-8").startsWith("ID-")) {
+    id = data.toString("utf-8").substring(3);
+    console.log(`USER [${id}]\n`);
+  } else {
+    console.log(data.toString("utf-8"));
+  }
 
   await ask();
 });
