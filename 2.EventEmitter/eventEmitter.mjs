@@ -47,7 +47,7 @@ import { EventEmitter as MyEventEmitter } from "./implementingEventEmitter.mjs";
 const myEventEmitter = new MyEventEmitter();
 
 myEventEmitter.on("myEventEmitter", () => {
-  log("Testing custom class EventEmitter");
+  log("Testing custom class 2.EventEmitter");
 })
 
 myEventEmitter.emit("myEventEmitter");
