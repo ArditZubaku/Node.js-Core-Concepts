@@ -3,7 +3,7 @@
 
 import { log } from "node:console";
 import { copyFile as copyFileAsync } from "node:fs/promises";
-import { copyFile, copyFileSync } from 'node:fs'
+import { copyFile, copyFileSync } from "node:fs";
 
 const filePath = "./text.txt";
 
@@ -23,4 +23,3 @@ copyFile(filePath, "copied-callback.txt", (err) => {
 
 // SYNCHRONOUS API
 copyFileSync(filePath, "copied-sync.txt");
-

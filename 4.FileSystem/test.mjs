@@ -5,4 +5,3 @@ const content = readFileSync("./text.txt");
 
 log(content);
 log(content.toString("utf-8"));
-

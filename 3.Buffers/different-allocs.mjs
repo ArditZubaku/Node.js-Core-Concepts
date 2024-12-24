@@ -18,5 +18,9 @@ for (let i = 0; i < unsafeBuffer.length; i++) {
   }
 }
 
-const concattedBuffer = Buffer.concat([Buffer.from([1, 2, 3]), buffer, unsafeBuffer]);
+const concattedBuffer = Buffer.concat([
+  Buffer.from([1, 2, 3]),
+  buffer,
+  unsafeBuffer,
+]);
 log(concattedBuffer);

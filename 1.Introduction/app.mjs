@@ -13,9 +13,8 @@ server.on("request", (req, res) => {
   res.setHeader("Content-Type", "text/plain");
 
   res.end(result);
-})
+});
 
 server.listen(4080, "127.0.0.1", () => {
   log("Server has started on:", server.address());
-})
-
+});

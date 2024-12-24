@@ -10,5 +10,3 @@ mem[2] = 0b00100001;
 
 log(mem.toString("utf-8"));
 log(mem.toString("utf8"));
-
-

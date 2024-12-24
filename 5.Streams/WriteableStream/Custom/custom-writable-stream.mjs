@@ -50,7 +50,7 @@ class FileWriteStream extends Writable {
           ++this.numberOfWrites;
           // When done, call the callback
           callback();
-        }
+        },
       );
     } else {
       // When done, call the callback
@@ -77,7 +77,7 @@ class FileWriteStream extends Writable {
 
         // Notifies Node.js that we are done
         callback();
-      }
+      },
     );
   }
 

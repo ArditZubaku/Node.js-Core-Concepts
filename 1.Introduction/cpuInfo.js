@@ -1,5 +1,5 @@
-const { log } = require('console');
-const os = require('os');
+const { log } = require("console");
+const os = require("os");
 
 // Get an array of objects containing information about each logical CPU core
 const cpus = os.cpus();
@@ -10,8 +10,6 @@ const name = os.hostname();
 log(`Architecture: ${architecture}`);
 log(`Type: ${type}`);
 log(`Hostname: ${name}`);
-
-
 
 // Display information for each CPU core
 cpus.forEach((cpu, index) => {
