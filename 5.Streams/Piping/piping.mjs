@@ -13,7 +13,7 @@ import { pipeline } from "node:stream";
   // Writeable stream needs to be passed
   // Handles backpressure, pause/resume and all that
   // The flow of data will be automatically managed
-  //   readStream.pipe(writeStream); // Not preffered because of the poor error handling
+  //   readStream.pipe(writeStream); // Not preferred because of the poor error handling
 
   pipeline(readStream, writeStream, (err) => {
     if (err) {

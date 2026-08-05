@@ -9,7 +9,7 @@ import { open, appendFile } from "node:fs/promises";
       await appendFile(fileHandler, `Line ${i}\n`);
     }
 
-    fileHandler.close();
+    await fileHandler.close();
 
     console.log("File written successfully");
 
@@ -34,7 +34,7 @@ import { open, appendFile } from "node:fs/promises";
     }
 
     await fileHandler.write(lines);
-    fileHandler.close();
+    await fileHandler.close();
 
     console.log("File written successfully");
 
@@ -59,7 +59,7 @@ import { open, appendFile } from "node:fs/promises";
     }
 
     await fileHandler.appendFile(lines);
-    fileHandler.close();
+    await fileHandler.close();
 
     console.log("File written successfully");
 

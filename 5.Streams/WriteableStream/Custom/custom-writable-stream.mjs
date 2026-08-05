@@ -12,25 +12,26 @@ class FileWriteStream extends Writable {
     this.numberOfWrites = 0;
   }
 
-  _construct(callback) {
+  // Never throw an error inside the `_something` methods
+  _construct(next) {
     // This method is called when the stream is being constructed
     // We can do some initialization here
     fs.open(this.fileName, "w", (err, fileDescriptor) => {
       if (err) {
         // Don't throw an error here, just pass it to the callback
-        return callback(err);
+        return next(err);
       }
 
       this.fileDescriptor = fileDescriptor;
       // When done, call the callback
-      // No arguments means successfull completion
-      callback();
+      // No arguments means successful completion
+      next();
     });
   }
 
   // To implement a writable stream, we need to implement the _write method
   // not the write method
-  _write(chunk, encoding, callback) {
+  _write(chunk, encoding, next) {
     // Do our writing here
     this.chunks.push(chunk);
     this.chunksSize += chunk.length;
@@ -41,7 +42,7 @@ class FileWriteStream extends Writable {
         Buffer.concat(this.chunks),
         (err, bytesWritten) => {
           if (err) {
-            return callback(err);
+            return next(err);
           }
 
           this.chunks = [];
@@ -49,16 +50,16 @@ class FileWriteStream extends Writable {
           // faster than this.numberOfWrites++
           ++this.numberOfWrites;
           // When done, call the callback
-          callback();
+          next();
         },
       );
     } else {
       // When done, call the callback
-      callback();
+      next();
     }
   }
 
-  _final(callback) {
+  _final(next) {
     // This method is called when the stream is being closed
     // We can do some final operations here
     fs.write(
@@ -66,7 +67,7 @@ class FileWriteStream extends Writable {
       Buffer.concat(this.chunks),
       (err, bytesWritten) => {
         if (err) {
-          return callback(err);
+          return next(err);
         }
         console.log(`Total writes: ${this.numberOfWrites + 1}`);
         console.log(`Total bytes written: ${bytesWritten}`);
@@ -76,12 +77,12 @@ class FileWriteStream extends Writable {
         ++this.numberOfWrites;
 
         // Notifies Node.js that we are done
-        callback();
+        next();
       },
     );
   }
 
-  _destroy(error, callback) {
+  _destroy(error, next) {
     // This method is called when the stream is being destroyed
     // We can do some cleanup here
     console.log("Number of writes: ", this.numberOfWrites);
@@ -89,11 +90,11 @@ class FileWriteStream extends Writable {
     if (this.fileDescriptor) {
       fs.close(this.fileDescriptor, (err) => {
         if (err || error) {
-          return callback(err || error);
+          return next(err || error);
         }
       });
     } else {
-      callback(error);
+      next(error);
     }
   }
 }

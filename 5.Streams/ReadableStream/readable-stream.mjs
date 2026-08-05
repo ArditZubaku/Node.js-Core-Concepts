@@ -43,9 +43,11 @@ const readStream = async () => {
     const primeNumbers = getPrimeNumbers(numbers);
     const buffer = Buffer.from(primeNumbers.join("\n"));
 
+    // Pauses the read stream from reading more data until the write stream is ready
     if (!writeStream.write(buffer)) readStream.pause();
   });
 
+  // Resumes the read stream when the write stream is ready to write more data
   writeStream.on("drain", () => readStream.resume());
 
   readStream.on("end", () => {
@@ -56,4 +58,4 @@ const readStream = async () => {
   writeStream.on("finish", () => console.log("Writing stream ended"));
 };
 
-readStream();
+readStream().catch(e => console.error(e));

@@ -89,7 +89,7 @@ const createBigFile = async (numberOfLines, fileName) => {
     }
   };
 
-  writeMany();
+  await writeMany();
   stream.on("drain", () => writeMany());
   stream.on("finish", async () => {
     await fileHandler.close();
@@ -97,4 +97,4 @@ const createBigFile = async (numberOfLines, fileName) => {
   });
 };
 
-createBigFile(1_000_000_000, "bigFile2.txt");
+createBigFile(1_000_000_000, "bigFile2.txt").catch(e => console.error(e));

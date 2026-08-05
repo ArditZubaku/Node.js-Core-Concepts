@@ -9,19 +9,19 @@ class FileReadStream extends Readable {
     this.fileDescriptor = null;
   }
 
-  _construct(callback) {
+  _construct(next) {
     fs.open(this.fileName, "r", (err, fileDescriptor) => {
-      if (err) return callback(err);
+      if (err) return next(err);
 
       this.fileDescriptor = fileDescriptor;
-      callback();
+      next();
     });
   }
 
   _read(size) {
     const buffer = Buffer.alloc(size);
     fs.read(this.fileDescriptor, buffer, 0, size, null, (err, bytesRead) => {
-      if (err) this.destroy(err);
+      if (err) return this.destroy(err);
 
       // Pushes to the internal buffer
       // And triggers the "data" event
@@ -32,11 +32,11 @@ class FileReadStream extends Readable {
     });
   }
 
-  _destroy(error, callback) {
+  _destroy(error, next) {
     if (this.fileDescriptor) {
-      fs.close(this.fileDescriptor, (err) => callback(err || error));
+      fs.close(this.fileDescriptor, (err) => next(err || error));
     } else {
-      callback(error);
+      next(error);
     }
   }
 }
